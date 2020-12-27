@@ -1,7 +1,3 @@
-provider "aws" {
-     region = var.region
-}
-
 terraform {
    backend "s3" {
       bucket = "kapil-terraform-backend-bucket"
@@ -11,6 +7,11 @@ terraform {
       dynamodb_table = "terraform-up-and-running-locks"
       encrypt = true
    }
+}
+
+
+provider "aws" {
+     region = var.region
 }
 
 
@@ -127,17 +128,17 @@ module "my_alb" {
    tg2-tag = var.tg2-tag
 }
 
-variable "s3-bucket-name" {}
+# variable "s3-bucket-name" {}
 
-module "s3" {
-   source = "../modules/s3"
-   s3-bucket-name = var.s3-bucket-name
-}
+# module "s3" {
+#    source = "../modules/s3"
+#    s3-bucket-name = var.s3-bucket-name
+# }
 
 
-variable "dynamodb-table-tag" {}
+# variable "dynamodb-table-tag" {}
 
-module "dynamodb" {
-   source = "../modules/dynamodb"
-   dynamodb-table-tag = var.dynamodb-table-tag
-}
+# module "dynamodb" {
+#    source = "../modules/dynamodb"
+#    dynamodb-table-tag = var.dynamodb-table-tag
+# }

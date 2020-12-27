@@ -1,7 +1,3 @@
-provider "aws" {
-    region = "ca-central-1"
-}
-
 
 resource "aws_s3_bucket" "kkbucket" {
      bucket = var.s3-bucket-name
