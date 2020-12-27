@@ -23,6 +23,11 @@ variable "igw-tag" {
     default = "kapil_igw"
 }
 
+#NAT Tag
+variable "nat-tag" {
+    default = "kapil_nat"
+}
+
 ########################### Subnets CIDR Blocks #############################
 # Public Subnet in 1a - CIDR Block
 variable "sub-pub-1a-cidr" {
@@ -73,17 +78,17 @@ variable "az-pub-1a" {
 }
 
 # Availablilty Zone for Public Subnet in 1b
-variable "az_pub_1b" {
+variable "az-pub-1b" {
    default = "cac1-az2"
 }
 
 # Availablilty Zone for Private Subnet in 1a
-variable "az_pri_1a" {
+variable "az-pri-1a" {
    default = "cac1-az1"
 }
 
 # Availablilty Zone for Private Subnet in 1b
-variable "az_pri_1b" {
+variable "az-pri-1b" {
    default = "cac1-az2"
 }
 

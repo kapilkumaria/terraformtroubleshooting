@@ -1,10 +1,10 @@
 
 resource "aws_vpc" "terraformvpc" {
-    cidr_block = var-vpc-cidr
-    tenancy = var.tenancy
+    cidr_block = var.vpc-cidr
+    #tenancy = var.tenancy
 
     tags = {
-       Name = "var.vpc-tag"   
+       Name = var.vpc-tag
     }
 }
 
@@ -23,7 +23,7 @@ resource "aws_nat_gateway" "nat" {
      allocation_id = var.eip-id
 
      tags = {
-       Name = "kapil_nat"
+       Name = var.nat-tag
      }
 }
 
@@ -85,7 +85,7 @@ resource "aws_route_table" "publicrt" {
    }
 
    tags = {
-     Name = var.public-rt-tag"
+     Name = var.public-rt-tag
    }
 }
 

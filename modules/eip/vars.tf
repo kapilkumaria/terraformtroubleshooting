@@ -1,4 +1,4 @@
 
-variable "eip_for_nat" {
+variable "eip-tag" {
    default = "kapil_eip"
 }

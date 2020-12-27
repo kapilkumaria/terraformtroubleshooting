@@ -2,14 +2,14 @@
 resource "aws_security_group" "bastionsg" {
     name = "bastionsg"
     description = "security group for bastion server"
-    vpc_id = var.terravpcid
+    vpc_id = var.vpc-id
     
     ingress {
       description = "Allow SSH connection from my computer only"
       from_port = 22
       to_port = 22
       protocol = "TCP"
-      cidr_blocks = var.your-ip
+      cidr_blocks = [var.your-ip]
     }
 
     egress {
@@ -28,7 +28,7 @@ resource "aws_security_group" "bastionsg" {
 resource "aws_security_group" "websg" {
     name = "websg"
     description = "security group for web servers"
-    vpc_id = var.terravpcid
+    vpc_id = var.vpc-id
 
     ingress {
       description = "Allow SSH connection from bastion server only"
@@ -62,7 +62,7 @@ resource "aws_security_group" "websg" {
 resource "aws_security_group" "dbsg" {
     name = "dbsg"
     description = "security group for database servers"
-    vpc_id = var.terravpcid
+    vpc_id = var.vpc-id
 
     ingress {
       description = "Allow SSH connection from bastion server only"
@@ -96,7 +96,7 @@ resource "aws_security_group" "dbsg" {
 resource "aws_security_group" "albsg" {
     name = "albsg"
     description = "security group for application load balancer"
-    vpc_id = var.terravpcid
+    vpc_id = var.vpc-id
 
     ingress {
       description = "Allow HTTP traffic from internet"

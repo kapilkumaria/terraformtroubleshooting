@@ -1,13 +1,4 @@
 
-# resource "aws_key_pair" "deployer" {
-#   key_name   = "deployer-key"
-#   public_key = ""
-#    tags = {
-#      Name = "kapil_key-pair"
-#    }
-# }
-
-
 resource "aws_instance" "bastion" {
     ami = var.ami-id-bastion
     instance_type = var.instance-type-bastion
