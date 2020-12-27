@@ -2,6 +2,18 @@ provider "aws" {
      region = var.region
 }
 
+terraform {
+   backend "s3" {
+      bucket = "kapil-terraform-backend-bucket"
+      key = "global/s3/terraform.tfstate"
+      region = "ca-central-1"
+      
+      dynamodb_table = "terraform-up-and-running-locks"
+      encrypt = true
+   }
+}
+
+
 variable "region" {}
 variable "vpc-cidr" {}
 variable "tenancy" {}
@@ -113,4 +125,19 @@ module "my_alb" {
    alb-tag = var.alb-tag
    tg1-tag = var.tg1-tag
    tg2-tag = var.tg2-tag
+}
+
+variable "s3-bucket-name" {}
+
+module "s3" {
+   source = "../modules/s3"
+   s3-bucket-name = var.s3-bucket-name
+}
+
+
+variable "dynamodb-table-tag" {}
+
+module "dynamodb" {
+   source = "../modules/dynamodb"
+   dynamodb-table-tag = var.dynamodb-table-tag
 }

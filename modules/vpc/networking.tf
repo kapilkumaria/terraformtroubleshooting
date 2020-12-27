@@ -56,7 +56,7 @@ resource "aws_subnet" "private1a" {
     vpc_id = aws_vpc.terraformvpc.id 
     cidr_block = var.sub-pri-1a-cidr
     availability_zone_id = var.az-pri-1a
-    map_public_ip_on_launch = true
+    map_public_ip_on_launch = false
 
     tags = {
       Name = var.sub-pri-1a-tag
@@ -68,7 +68,7 @@ resource "aws_subnet" "private1b" {
     vpc_id = aws_vpc.terraformvpc.id 
     cidr_block = var.sub-pri-1b-cidr
     availability_zone_id = var.az-pri-1b
-    map_public_ip_on_launch = true
+    map_public_ip_on_launch = false
 
     tags = {
       Name = var.sub-pri-1b-tag
