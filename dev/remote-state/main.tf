@@ -14,3 +14,4 @@ module "my_dynamodb" {
    source = "../../modules/dynamodb"
    #dynamodb-table-tag = var.dynamodb-table-tag
 }
+
