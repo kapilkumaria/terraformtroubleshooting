@@ -1,6 +1,6 @@
 terraform {
    backend "s3" {
-      bucket = "kapil-terraform-backend-bucket"
+      bucket = "kapil-terraform-remote-backend-bucket-2020"
       key = "global/s3/terraform.tfstate"
       region = "ca-central-1"
       
@@ -62,8 +62,7 @@ module "vpc" {
     private-rt-tag  = var.private-rt-tag
 }
 
-#Start from here ------>>>>>>
-#variable "vpc-id" {}
+
 variable "your-ip" {}
 variable "kapil-sg-bastion" {}
 variable "kapil-sg-web" {}
@@ -127,18 +126,3 @@ module "my_alb" {
    tg1-tag = var.tg1-tag
    tg2-tag = var.tg2-tag
 }
-
-# variable "s3-bucket-name" {}
-
-# module "s3" {
-#    source = "../modules/s3"
-#    s3-bucket-name = var.s3-bucket-name
-# }
-
-
-# variable "dynamodb-table-tag" {}
-
-# module "dynamodb" {
-#    source = "../modules/dynamodb"
-#    dynamodb-table-tag = var.dynamodb-table-tag
-# }
