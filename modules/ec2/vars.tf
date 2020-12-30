@@ -80,7 +80,7 @@ variable "sgforweb" {}
 
 variable "sgfordb" {}
 
-#variable "vpcid" {}
+
 
 
 

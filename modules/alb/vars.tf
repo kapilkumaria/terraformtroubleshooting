@@ -16,30 +16,6 @@ variable "tg2-tag" {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 variable "public-1a" {}
 variable "alb_vpc_id" {}
 variable "alb_sg" {}

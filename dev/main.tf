@@ -15,37 +15,15 @@ provider "aws" {
 }
 
 
-variable "region" {}
-variable "vpc-cidr" {}
-variable "tenancy" {}
-variable "vpc-tag" {}
-variable "igw-tag" {}
-variable "nat-tag" {}
-variable "sub-pub-1a-cidr" {}
-variable "sub-pub-1b-cidr" {}
-variable "sub-pri-1a-cidr" {}
-variable "sub-pri-1b-cidr" {}
-variable "sub-pub-1a-tag" {}
-variable "sub-pub-1b-tag" {}
-variable "sub-pri-1a-tag" {}
-variable "sub-pri-1b-tag" {}
-variable "az-pub-1a" {}
-variable "az-pub-1b" {}
-variable "az-pri-1a" {}
-variable "az-pri-1b" {}
-variable "public-rt-tag" {}
-variable "private-rt-tag" {}
-
 module "vpc" {
     source           = "../modules/vpc"
-    vpc_id           = module.vpc.vpc_id
-    eip-id           = module.eip.eip_id
     region           = var.region 
     vpc-cidr         = var.vpc-cidr
     tenancy          = var.tenancy
     vpc-tag          = var.vpc-tag
     igw-tag          = var.igw-tag
     nat-tag          = var.nat-tag
+    eip-id           = module.eip.eip_id
     sub-pub-1a-cidr  = var.sub-pub-1a-cidr
     sub-pub-1b-cidr  = var.sub-pub-1b-cidr
     sub-pri-1a-cidr  = var.sub-pri-1a-cidr
@@ -63,12 +41,6 @@ module "vpc" {
 }
 
 
-variable "your-ip" {}
-variable "kapil-sg-bastion" {}
-variable "kapil-sg-web" {}
-variable "kapil-sg-db" {}
-variable "kapil-sg-alb" {}
-
 module "sg" {
    source            = "../modules/sg"
    vpc-id            = module.vpc.vpc_id
@@ -79,39 +51,36 @@ module "sg" {
    kapil-sg-alb      = var.kapil-sg-alb
 }
 
-variable "eip-tag" {}
 
 module "eip" {
-   source = "../modules/eip"
+   source   = "../modules/eip"
+   eip-tag  = var.eip-tag
 }
 
-variable "ami-id-bastion" {}
-variable "ami-id-web" {}
-variable "ami-id-db" {}
-variable "instance-type-bastion" {}
-variable "instance-type-web" {}
-variable "instance-type-db" {}
-variable "key-name" {}
-variable "bastion-ec2-tag" {}
-variable "web1a-ec2-tag" {}
-variable "web1b-ec2-tag" {}
-variable "db1a-ec2-tag" {}
-variable "db1b-ec2-tag" {}
 
 module "ec2" {
-   source         = "../modules/ec2"
-   public-1a      = module.vpc.public-1a
-   public-1b      = module.vpc.public-1b
-   private-1a     = module.vpc.private-1a
-   private-1b     = module.vpc.private-1b
-   sgforbastion   = module.sg.bastion_sg
-   sgforweb       = module.sg.web_sg 
-   sgfordb        = module.sg.db_sg
+   source                  = "../modules/ec2"
+   public-1a               = module.vpc.public-1a
+   public-1b               = module.vpc.public-1b
+   private-1a              = module.vpc.private-1a
+   private-1b              = module.vpc.private-1b
+   sgforbastion            = module.sg.bastion_sg
+   sgforweb                = module.sg.web_sg 
+   sgfordb                 = module.sg.db_sg
+   ami-id-bastion          = var.ami-id-bastion
+   ami-id-web              = var.ami-id-web
+   ami-id-db               = var.ami-id-db
+   instance-type-bastion   = var.instance-type-bastion
+   instance-type-web       = var.instance-type-web
+   instance-type-db        = var.instance-type-db 
+   key-name                = var.key-name 
+   bastion-ec2-tag         = var.bastion-ec2-tag
+   web1a-ec2-tag           = var.web1a-ec2-tag
+   web1b-ec2-tag           = var.web1b-ec2-tag
+   db1a-ec2-tag            = var.db1a-ec2-tag
+   db1b-ec2-tag            = var.db1b-ec2-tag
 }
 
-variable "alb-tag" {}
-variable "tg1-tag" {}
-variable "tg2-tag" {}
 
 module "my_alb" {
    source                  = "../modules/alb"

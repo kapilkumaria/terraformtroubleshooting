@@ -31,9 +31,6 @@ output "private_rt_id" {
    value = aws_route_table.privatert.id
 }
 
-#output "EIP_ID" {
-#   value = [module.eip.EIP_ID]
-#}
 
 output "nat_id" {
    value = aws_nat_gateway.nat.id
