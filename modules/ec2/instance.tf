@@ -12,53 +12,34 @@ resource "aws_instance" "bastion" {
 }
     
 
-resource "aws_instance" "web1a" {
-    ami                     = var.ami-id-web
-    instance_type           = var.instance-type-web
-    subnet_id               = var.public-1a
-    vpc_security_group_ids  = [var.sgforweb]
-    user_data               = file("webserver-script-logfiles.sh")
-    key_name                = var.key-name
+resource "aws_instance" "web" {
+  count = length(var.instance-web-tags)
+  ami   = lookup(var.ami, var.region)
+  instance_type = var.instance-type-web
 
-    tags = {
-      Name                  = var.web1a-ec2-tag
-    }
+
+  user_data = file(element(var.script, count.index))
+  
+  subnet_id = element(var.public-subnets, count.index)
+  
+  vpc_security_group_ids = [var.sgforweb]
+  key_name                = var.key-name
+    
+  tags = {
+    Name = element(var.instance-web-tags, count.index)
+  }
 }
 
 
-resource "aws_instance" "web1b" {
-    ami                     = var.ami-id-web
-    instance_type           = var.instance-type-web
-    subnet_id               = var.public-1b
-    vpc_security_group_ids  = [var.sgforweb]
-    user_data               = file("webserver-script-images.sh")
-    key_name                = var.key-name
-
-    tags = {
-      Name                  = var.web1b-ec2-tag
-    }
-}
-
-resource "aws_instance" "db1a" {
-    ami                     = var.ami-id-db
-    instance_type           = var.instance-type-db
-    subnet_id               = var.private-1a
-    vpc_security_group_ids  =   [var.sgfordb]
-    key_name                = var.key-name
-
-    tags = {
-      Name                  = var.db1a-ec2-tag
-    }
-}
-
-resource "aws_instance" "db1b" {
-    ami                     = var.ami-id-db
-    instance_type           = var.instance-type-db
-    subnet_id               = var.private-1b
-    vpc_security_group_ids  = [var.sgfordb]
-    key_name                = var.key-name
-
-    tags = {
-      Name                  = var.db1b-ec2-tag
-    }
+resource "aws_instance" "db" {
+  count = length(var.instance-db-tags)
+  ami   = lookup(var.ami, var.region)
+  instance_type = var.instance-type-db
+  subnet_id = element(var.private-subnets, count.index)
+  vpc_security_group_ids = [var.sgfordb]
+  key_name                = var.key-name
+    
+  tags = {
+    Name = element(var.instance-db-tags, count.index)
+  }
 }

@@ -1,7 +1,8 @@
 
 resource "aws_vpc" "terraformvpc" {
-    cidr_block  = var.vpc-cidr
-    
+    cidr_block       = var.vpc-cidr
+    instance_tenancy = var.tenancy
+
     tags = {
        Name     = var.vpc-tag
     }
@@ -18,7 +19,7 @@ resource "aws_internet_gateway" "igw" {
 
 
 resource "aws_nat_gateway" "nat" {
-     subnet_id      = aws_subnet.public1a.id
+     subnet_id      = var.pub-sub-ids
      allocation_id  = var.eip-id
 
      tags = {
@@ -26,52 +27,30 @@ resource "aws_nat_gateway" "nat" {
      }
 }
 
+######################################################################################
+resource "aws_subnet" "pub-sub" {
+  count                    = length(var.pub-subnet-tags)
+  vpc_id                   = aws_vpc.terraformvpc.id
+  cidr_block               = cidrsubnet(var.vpc-cidr,2,count.index)
+  availability_zone_id     = element(var.pub-sub-azs, count.index)
+  map_public_ip_on_launch  = true
 
-resource "aws_subnet" "public1a" {
-    vpc_id                  = aws_vpc.terraformvpc.id 
-    cidr_block              = var.sub-pub-1a-cidr
-    availability_zone_id    = var.az-pub-1a
-    map_public_ip_on_launch = true
 
-    tags = {
-      Name = var.sub-pub-1a-tag
-    }
+  tags = {
+     Name = var.pub-subnet-tags[count.index]
+  }
 }
 
-
-resource "aws_subnet" "public1b" {
-    vpc_id                  = aws_vpc.terraformvpc.id 
-    cidr_block              = var.sub-pub-1b-cidr
-    availability_zone_id    = var.az-pub-1b
-    map_public_ip_on_launch = true
-
-    tags = {
-      Name = var.sub-pub-1b-tag
-    }
-}
-
-
-resource "aws_subnet" "private1a" {
-    vpc_id                  = aws_vpc.terraformvpc.id 
-    cidr_block              = var.sub-pri-1a-cidr
-    availability_zone_id    = var.az-pri-1a
-    map_public_ip_on_launch = false
-
-    tags = {
-      Name = var.sub-pri-1a-tag
-    }
-}
-
-
-resource "aws_subnet" "private1b" {
-    vpc_id                  = aws_vpc.terraformvpc.id 
-    cidr_block              = var.sub-pri-1b-cidr
-    availability_zone_id    = var.az-pri-1b
-    map_public_ip_on_launch = false
-
-    tags = {
-      Name = var.sub-pri-1b-tag
-    }
+resource "aws_subnet" "pri-sub" {
+  count                    = length(var.pri-subnet-tags)
+  vpc_id                   = aws_vpc.terraformvpc.id
+  cidr_block               = cidrsubnet(var.vpc-cidr,2,count.index + 2)
+  availability_zone_id     = element(var.pri-sub-azs, count.index)
+  map_public_ip_on_launch  = false
+    
+  tags = {
+     Name = var.pri-subnet-tags[count.index]
+  }
 }
 
 
@@ -103,26 +82,25 @@ resource "aws_route_table" "privatert" {
 }
 
 
-
 resource "aws_route_table_association" "rta1" {
-   subnet_id      = aws_subnet.public1a.id
+   subnet_id      = var.pub-sub-1a
    route_table_id = aws_route_table.publicrt.id
 }
    
 
 resource "aws_route_table_association" "rta2" {
-   subnet_id      = aws_subnet.public1b.id
+   subnet_id      = var.pub-sub-1b
    route_table_id = aws_route_table.publicrt.id
 }
 
 
 resource "aws_route_table_association" "rta3" {
-   subnet_id      = aws_subnet.private1a.id
+   subnet_id      = var.pri-sub-1a
    route_table_id = aws_route_table.privatert.id
 }
 
 
 resource "aws_route_table_association" "rta4" {
-   subnet_id      = aws_subnet.private1b.id
+   subnet_id      = var.pri-sub-1b
    route_table_id = aws_route_table.privatert.id
 }

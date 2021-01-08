@@ -1,13 +1,13 @@
-terraform {
-   backend "s3" {
-      bucket         = "kapil-terraform-remote-backend-bucket-2020"
-      key            = "global/s3/terraform.tfstate"
-      region         = "ca-central-1"
+# terraform {
+#    backend "s3" {
+#       bucket         = "kapil-terraform-remote-backend-bucket-2020"
+#       key            = "global/s3/terraform.tfstate"
+#       region         = "ca-central-1"
       
-      dynamodb_table = "terraform-up-and-running-locks"
-      encrypt        = true
-   }
-}
+#       dynamodb_table = "terraform-up-and-running-locks"
+#       encrypt        = true
+#    }
+# }
 
 
 provider "aws" {
@@ -24,18 +24,23 @@ module "vpc" {
     igw-tag          = var.igw-tag
     nat-tag          = var.nat-tag
     eip-id           = module.eip.eip_id
-    sub-pub-1a-cidr  = var.sub-pub-1a-cidr
-    sub-pub-1b-cidr  = var.sub-pub-1b-cidr
-    sub-pri-1a-cidr  = var.sub-pri-1a-cidr
-    sub-pri-1b-cidr  = var.sub-pri-1b-cidr
-    sub-pub-1a-tag   = var.sub-pub-1a-tag
-    sub-pub-1b-tag   = var.sub-pub-1b-tag
-    sub-pri-1a-tag   = var.sub-pri-1a-tag
-    sub-pri-1b-tag   = var.sub-pri-1b-tag
-    az-pub-1a        = var.az-pub-1a
-    az-pub-1b        = var.az-pub-1b
-    az-pri-1a        = var.az-pri-1a
-    az-pri-1b        = var.az-pri-1b
+    pub-sub-ids      = module.vpc.public-1a
+    pub-sub-1a       = module.vpc.public-1a
+    pub-sub-1b       = module.vpc.public-1b
+    pri-sub-1a       = module.vpc.private-1a
+    pri-sub-1b       = module.vpc.private-1b
+   #  sub-pub-1a-cidr  = var.sub-pub-1a-cidr
+   #  sub-pub-1b-cidr  = var.sub-pub-1b-cidr
+   #  sub-pri-1a-cidr  = var.sub-pri-1a-cidr
+   #  sub-pri-1b-cidr  = var.sub-pri-1b-cidr
+   #  sub-pub-1a-tag   = var.sub-pub-1a-tag
+   #  sub-pub-1b-tag   = var.sub-pub-1b-tag
+   #  sub-pri-1a-tag   = var.sub-pri-1a-tag
+   #  sub-pri-1b-tag   = var.sub-pri-1b-tag
+   #  az-pub-1a        = var.az-pub-1a
+   #  az-pub-1b        = var.az-pub-1b
+   #  az-pri-1a        = var.az-pri-1a
+   #  az-pri-1b        = var.az-pri-1b
     public-rt-tag    = var.public-rt-tag
     private-rt-tag   = var.private-rt-tag
 }
@@ -60,25 +65,35 @@ module "eip" {
 
 module "ec2" {
    source                  = "../modules/ec2"
+   region                  = var.region
    public-1a               = module.vpc.public-1a
-   public-1b               = module.vpc.public-1b
-   private-1a              = module.vpc.private-1a
-   private-1b              = module.vpc.private-1b
+   #public-1b               = module.vpc.public-1b
+   #private-1a              = module.vpc.private-1a
+   #private-1b              = module.vpc.private-1b
    sgforbastion            = module.sg.bastion_sg
    sgforweb                = module.sg.web_sg 
    sgfordb                 = module.sg.db_sg
-   ami-id-bastion          = var.ami-id-bastion
-   ami-id-web              = var.ami-id-web
-   ami-id-db               = var.ami-id-db
+   public-subnets          = module.vpc.public_subnet_ids
+   private-subnets         = module.vpc.private_subnet_ids
+
+   # ami-id-bastion          = var.ami-id-bastion
+   # ami-id-web              = var.ami-id-web
+   # ami-id-db               = var.ami-id-db
    instance-type-bastion   = var.instance-type-bastion
    instance-type-web       = var.instance-type-web
    instance-type-db        = var.instance-type-db 
    key-name                = var.key-name 
    bastion-ec2-tag         = var.bastion-ec2-tag
-   web1a-ec2-tag           = var.web1a-ec2-tag
-   web1b-ec2-tag           = var.web1b-ec2-tag
-   db1a-ec2-tag            = var.db1a-ec2-tag
-   db1b-ec2-tag            = var.db1b-ec2-tag
+   # instance-web-tags       = var.instance-web-tags
+   # instance-db-tags        = var.instance-db-tags
+   # pub-subnet-tags         = var.pub-subnet-tags
+   # pri-subnet-tags         = var.pri-subnet-tags
+   # pub-sub-azs             = var.pub-sub-azs
+   # pri-sub-azs             = var.pri-sub-azs
+   # web1a-ec2-tag           = var.web1a-ec2-tag
+   # web1b-ec2-tag           = var.web1b-ec2-tag
+   # db1a-ec2-tag            = var.db1a-ec2-tag
+   # db1b-ec2-tag            = var.db1b-ec2-tag
 }
 
 

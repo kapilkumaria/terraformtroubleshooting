@@ -1,4 +1,4 @@
-## Region in which the resources to be deployed
+# Region in which the resources to be deployed
 variable "region" {
     default = "ca-central-1"
 }
@@ -28,68 +28,37 @@ variable "nat-tag" {
     default = "kapil_nat"
 }
 
-########################### Subnets CIDR Blocks #############################
-# Public Subnet in 1a - CIDR Block
-variable "sub-pub-1a-cidr" {
-    default = "192.168.0.0/28"
+
+############################################################################################
+variable "pub-subnet-tags" {
+    type    = list(string)
+    default = ["kapil-pub-sub-1a", "kapil-pub-sub-1b"]
 }
 
-# Public Subnet in 1b - CIDR Block
-variable "sub-pub-1b-cidr" {
-    default = "192.168.0.16/28"
+variable "pri-subnet-tags" {
+    type    = list(string)
+    default = [
+        "kapil-pri-sub-1a",
+        "kapil-pri-sub-1b"
+    ]
 }
 
-# Private Subnet in 1a - CIDR Block
-variable "sub-pri-1a-cidr" {
-    default = "192.168.0.32/28"
+############################################################################################
+
+variable "pub-sub-azs" {
+    type    = list(string)
+    default = [
+        "cac1-az1",
+        "cac1-az2"
+    ]
 }
 
-# Private Subnet in 1b - CIDR Block
-variable "sub-pri-1b-cidr" {
-    default = "192.168.0.48/28"
-}
-
-########################### Subnets CIDR Tags #############################
-# Public Subnet in 1a - Tag
-variable "sub-pub-1a-tag" {
-    default = "sub_pub_1a_tag"
-}
-
-# Public Subnet in 1b - Tag
-variable "sub-pub-1b-tag" {
-    default = "sub_pub_1b_tag"
-}
-
-# Private Subnet in 1a - Tag
-variable "sub-pri-1a-tag" {
-    default = "sub_pri_1a_tag"
-}
-
-# Private Subnet in 1b - Tag
-variable "sub-pri-1b-tag" {
-    default = "sub_pri_1b_tag"
-}
-
-
-########################### Subnets Availablilty Zones #############################
-# Availablilty Zone for Public Subnet in 1a
-variable "az-pub-1a" {
-    default = "cac1-az1"
-}
-
-# Availablilty Zone for Public Subnet in 1b
-variable "az-pub-1b" {
-   default = "cac1-az2"
-}
-
-# Availablilty Zone for Private Subnet in 1a
-variable "az-pri-1a" {
-   default = "cac1-az1"
-}
-
-# Availablilty Zone for Private Subnet in 1b
-variable "az-pri-1b" {
-   default = "cac1-az2"
+variable "pri-sub-azs" {
+    type    = list(string)
+    default = [
+        "cac1-az1",
+        "cac1-az2"
+    ]
 }
 
 ########################### VPC Route Tables ########################################
@@ -103,10 +72,13 @@ variable "private-rt-tag" {
     default = "kapil-pri-rt"
 }
 
-
 ##########################################################################################
 variable "eip-id" {}
-
+variable "pub-sub-ids" {}
+variable "pub-sub-1a" {}
+variable "pub-sub-1b" {}
+variable "pri-sub-1a" {}
+variable "pri-sub-1b" {}
 
 
 

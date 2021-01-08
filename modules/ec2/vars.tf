@@ -4,17 +4,6 @@ variable "ami-id-bastion" {
     default = "ami-02e44367276fe7adc"
 }
 
-# AMI ID for Web Servers
-variable "ami-id-web" {
-    default = "ami-02e44367276fe7adc"
-}
-
-# AMI ID for Database Servers
-variable "ami-id-db" {
-    default = "ami-02e44367276fe7adc"
-}
-
-
 
 ########################### Instance Types for EC2 Instances (Bastion, Web and DB Servers) #############################
 # Instance Type for Web Servers
@@ -44,41 +33,59 @@ variable "bastion-ec2-tag" {
     default = "kapil-bastion"
 }
 
-# Web Server 1a Tag
-variable "web1a-ec2-tag" {
-    default = "kapil-web-1a"
-}
-
-# Web Server 1b Tag
-variable "web1b-ec2-tag" {
-    default = "kapil-web-1b"
-}
-
-# Database Server 1a Tag
-variable "db1a-ec2-tag" {
-    default = "kapil-db-1a"
-}
-
-# Database Server 1b Tag
-variable "db1b-ec2-tag" {
-    default = "kapil-db-1b"
-}
-
 #########################################################################################
 
 variable "public-1a" {}
 
-variable "public-1b" {}
+#variable "public-1b" {}
 
-variable "private-1a" {}
+# variable "private-1a" {}
 
-variable "private-1b" {}
+# variable "private-1b" {}
 
 variable "sgforbastion" {}
 
 variable "sgforweb" {}
 
 variable "sgfordb" {}
+
+variable "public-subnets" {}
+
+variable "private-subnets" {}
+
+variable "region" {}
+
+#########################################################################
+
+variable "ami" {
+    type = map
+
+    default = {
+        "ca-central-1"  = "ami-02e44367276fe7adc"
+        "us-east-1"     = "ami-02e44367276fe7adc"
+    }
+}
+
+# variable "instance-count" {
+#      default = 2
+# }
+
+
+variable "instance-web-tags" {
+    type    = list
+    default = ["kapil_webserver1a", "kapil_webserver1b"]
+}
+
+variable "instance-db-tags" {
+    type    = list
+    default = ["kapil_dbserver1a", "kapil_dbserver1b"]
+}
+
+
+variable "script" {
+    default = ["webserver-script-images.sh", "webserver-script-logfiles.sh"]
+}
+
 
 
 

@@ -63,25 +63,25 @@ variable "bastion-ec2-tag" {
     default = "kapil-bastion"
 }
 
-# Web Server 1a Tag
-variable "web1a-ec2-tag" {
-    default = "kapil-web-1a"
-}
+# # Web Server 1a Tag
+# variable "web1a-ec2-tag" {
+#     default = "kapil-web-1a"
+# }
 
-# Web Server 1b Tag
-variable "web1b-ec2-tag" {
-    default = "kapil-web-1b"
-}
+# # Web Server 1b Tag
+# variable "web1b-ec2-tag" {
+#     default = "kapil-web-1b"
+# }
 
-# Database Server 1a Tag
-variable "db1a-ec2-tag" {
-    default = "kapil-db-1a"
-}
+# # Database Server 1a Tag
+# variable "db1a-ec2-tag" {
+#     default = "kapil-db-1a"
+# }
 
-# Database Server 1b Tag
-variable "db1b-ec2-tag" {
-    default = "kapil-db-1b"
-}
+# # Database Server 1b Tag
+# variable "db1b-ec2-tag" {
+#     default = "kapil-db-1b"
+# }
 
 #########################################################################################
 
@@ -92,9 +92,9 @@ variable "eip-tag" {
 #variable "eip_id" {}
 
 
-variable "s3-bucket-name" {
-    default = "kapil-terraform-remote-backend-bucket-2020"
-}
+# variable "s3-bucket-name" {
+#     default = "kapil-terraform-remote-backend-bucket-2020"
+# }
 
 
 # Your IP Address for Security Group
@@ -159,68 +159,68 @@ variable "nat-tag" {
 }
 
 ########################### Subnets CIDR Blocks #############################
-# Public Subnet in 1a - CIDR Block
-variable "sub-pub-1a-cidr" {
-    default = "192.168.0.0/28"
-}
+# # Public Subnet in 1a - CIDR Block
+# variable "sub-pub-1a-cidr" {
+#     default = "192.168.0.0/28"
+# }
 
-# Public Subnet in 1b - CIDR Block
-variable "sub-pub-1b-cidr" {
-    default = "192.168.0.16/28"
-}
+# # Public Subnet in 1b - CIDR Block
+# variable "sub-pub-1b-cidr" {
+#     default = "192.168.0.16/28"
+# }
 
-# Private Subnet in 1a - CIDR Block
-variable "sub-pri-1a-cidr" {
-    default = "192.168.0.32/28"
-}
+# # Private Subnet in 1a - CIDR Block
+# variable "sub-pri-1a-cidr" {
+#     default = "192.168.0.32/28"
+# }
 
-# Private Subnet in 1b - CIDR Block
-variable "sub-pri-1b-cidr" {
-    default = "192.168.0.48/28"
-}
+# # Private Subnet in 1b - CIDR Block
+# variable "sub-pri-1b-cidr" {
+#     default = "192.168.0.48/28"
+# }
 
 ########################### Subnets CIDR Tags #############################
-# Public Subnet in 1a - Tag
-variable "sub-pub-1a-tag" {
-    default = "sub_pub_1a_tag"
-}
+# # Public Subnet in 1a - Tag
+# variable "sub-pub-1a-tag" {
+#     default = "sub_pub_1a_tag"
+# }
 
-# Public Subnet in 1b - Tag
-variable "sub-pub-1b-tag" {
-    default = "sub_pub_1b_tag"
-}
+# # Public Subnet in 1b - Tag
+# variable "sub-pub-1b-tag" {
+#     default = "sub_pub_1b_tag"
+# }
 
-# Private Subnet in 1a - Tag
-variable "sub-pri-1a-tag" {
-    default = "sub_pri_1a_tag"
-}
+# # Private Subnet in 1a - Tag
+# variable "sub-pri-1a-tag" {
+#     default = "sub_pri_1a_tag"
+# }
 
-# Private Subnet in 1b - Tag
-variable "sub-pri-1b-tag" {
-    default = "sub_pri_1b_tag"
-}
+# # Private Subnet in 1b - Tag
+# variable "sub-pri-1b-tag" {
+#     default = "sub_pri_1b_tag"
+# }
 
 
 ########################### Subnets Availablilty Zones #############################
-# Availablilty Zone for Public Subnet in 1a
-variable "az-pub-1a" {
-    default = "cac1-az1"
-}
+# # Availablilty Zone for Public Subnet in 1a
+# variable "az-pub-1a" {
+#     default = "cac1-az1"
+# }
 
-# Availablilty Zone for Public Subnet in 1b
-variable "az-pub-1b" {
-   default = "cac1-az2"
-}
+# # Availablilty Zone for Public Subnet in 1b
+# variable "az-pub-1b" {
+#    default = "cac1-az2"
+# }
 
-# Availablilty Zone for Private Subnet in 1a
-variable "az-pri-1a" {
-   default = "cac1-az1"
-}
+# # Availablilty Zone for Private Subnet in 1a
+# variable "az-pri-1a" {
+#    default = "cac1-az1"
+# }
 
-# Availablilty Zone for Private Subnet in 1b
-variable "az-pri-1b" {
-   default = "cac1-az2"
-}
+# # Availablilty Zone for Private Subnet in 1b
+# variable "az-pri-1b" {
+#    default = "cac1-az2"
+# }
 
 ########################### VPC Route Tables ########################################
 
@@ -231,6 +231,71 @@ variable "public-rt-tag" {
 
 variable "private-rt-tag" {
     default = "kapil-pri-rt"
+}
+
+
+######################################################################################
+
+variable "pub-subnet-tags" {
+    type    = list(string)
+    default = ["kapil-pub-sub-1a", "kapil-pub-sub-1b"]
+}
+
+variable "pri-subnet-tags" {
+    type    = list(string)
+    default = [
+        "kapil-pri-sub-1a",
+        "kapil-pri-sub-1b"
+    ]
+}
+
+############################################################################################
+
+variable "pub-sub-azs" {
+    type    = list(string)
+    default = [
+        "cac1-az1",
+        "cac1-az2"
+    ]
+}
+
+variable "pri-sub-azs" {
+    type    = list(string)
+    default = [
+        "cac1-az1",
+        "cac1-az2"
+    ]
+}
+
+############################################################################################
+
+variable "ami" {
+    type = map
+
+    default = {
+        "ca-central-1"  = "ami-02e44367276fe7adc"
+        "us-east-1"     = "ami-02e44367276fe7adc"
+    }
+}
+
+# variable "instance-count" {
+#      default = 2
+# }
+
+
+variable "instance-web-tags" {
+    type    = list
+    default = ["kapil_webserver1a", "kapil_webserver1b"]
+}
+
+variable "instance-db-tags" {
+    type    = list
+    default = ["kapil_dbserver1a", "kapil_dbserver1b"]
+}
+
+
+variable "script" {
+    default = ["webserver-script-images.sh", "webserver-script-logfiles.sh"]
 }
 
 
