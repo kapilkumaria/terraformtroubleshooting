@@ -5,7 +5,7 @@ pipeline{
     label 'ubuntu'
   }
 
-
+//environment
   environment {
     VERSION = "${BUILD_NUMBER}"
     PROJECT = 'nodeapp'
