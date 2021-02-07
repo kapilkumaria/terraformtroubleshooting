@@ -4,6 +4,6 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 CMD node index.js
-# expose the port
+# Expose the port
 EXPOSE 3005
 
